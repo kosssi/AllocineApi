@@ -1,0 +1,20 @@
+{
+    "name": "kosssi/allocine-api",
+    "description": "Description",
+    "require": {
+        "symfony/serializer": "master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Simon Constans",
+            "email": "kosssi@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "kosssi": "src/"
+        }
+    }
+}
