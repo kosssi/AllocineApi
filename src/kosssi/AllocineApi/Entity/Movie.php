@@ -1,52 +1,73 @@
 <?php
+namespace kosssi\AllocineApi\Entity;
+
+use kosssi\AllocineApi\AllocineApi;
 
 /**
- * Allocine API
+ * Movie
  *
  * PHP 5.3
  *
  * @author     Simon Constans <kosssi@gmail.com>
- * @copyleft   2012
- * @version    GIT:  https://github.com/kosssi/AllocineApi.php
+ * @git        https://github.com/kosssi/AllocineApi
  * @see        http://wiki.gromez.fr/dev/api/allocine_v3
  */
-
-namespace kosssi\AllocineApi\Entity;
-
-/**
- * AllocineMovie
- * Informations sur un film
- *
- * @author Simon Constans <kosssi@gmail.com>
- */
-class Movie
+class Movie extends AllocineApi
 {
     private $code;
-    private $movieType; // value = $
+    private $movieType;
     private $originalTitle;
     private $title;
     private $keywords;
     private $productionYear;
     private $nationality; // array
-    private $genre; // array
-    private $release;
+    private $genre;
+    private $release; // object
     private $runtime;
+    private $color;
+    private $formatList; // object
     private $language;
     private $budget;
     private $synopsis;
     private $synopsisShort;
-    private $castingShort;
-    private $castMember;
-    private $poster;
-    private $trailer;
+    private $castingShort; // object
+    private $castMember; // object
+    private $poster; // object
+    private $trailer; // object
     private $link;
     private $media;
-    private $statistics;
+    private $statistics; // object
     private $news;
     private $feature;
     private $trivia;
     private $tag;
-    private $boxOffice;
+    private $festivalAward; // object
+    private $boxOffice; // object
+
+    function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function setBoxOffice($boxOffice)
+    {
+        $this->boxOffice = $boxOffice;
+    }
+
+    public function getBoxOffice()
+    {
+        return $this->boxOffice;
+    }
+
+    public function setBudget($budget)
+    {
+        $this->budget = $budget;
+    }
+
+    public function getBudget()
+    {
+        return $this->budget;
+    }
 
     public function setCastMember($castMember)
     {
@@ -78,6 +99,46 @@ class Movie
         return $this->code;
     }
 
+    public function setColor($color)
+    {
+        $this->color = $color;
+    }
+
+    public function getColor()
+    {
+        return $this->getValue($this->color);
+    }
+
+    public function setFeature($feature)
+    {
+        $this->feature = $feature;
+    }
+
+    public function getFeature()
+    {
+        return $this->getArrayOfObject($this->feature, 'kosssi\AllocineApi\Entity\News');
+    }
+
+    public function setFestivalAward($festivalAward)
+    {
+        $this->festivalAward = $festivalAward;
+    }
+
+    public function getFestivalAward()
+    {
+        return $this->festivalAward;
+    }
+
+    public function setFormatList($formatList)
+    {
+        $this->formatList = $formatList;
+    }
+
+    public function getFormatList()
+    {
+        return $this->formatList;
+    }
+
     public function setGenre($genre)
     {
         $this->genre = $genre;
@@ -85,14 +146,17 @@ class Movie
 
     public function getGenre()
     {
-        $value = '$';
-        $genres = array();
+        return $this->getArray($this->genre);
+    }
 
-        foreach ($this->genre as $genre) {
-            $genres[] = $genre->$value;
-        }
+    public function setKeywords($keywords)
+    {
+        $this->keywords = $keywords;
+    }
 
-        return $genres;
+    public function getKeywords()
+    {
+        return $this->keywords;
     }
 
     public function setLanguage($language)
@@ -102,9 +166,7 @@ class Movie
 
     public function getLanguage()
     {
-        $value = '$';
-
-        return $this->language->$value;
+        return $this->getArray($this->language);
     }
 
     public function setLink($link)
@@ -114,7 +176,17 @@ class Movie
 
     public function getLink()
     {
-        return $this->link;
+        return $this->getArrayWithKey($this->link, 'name', 'href');
+    }
+
+    public function setMedia($media)
+    {
+        $this->media = $media;
+    }
+
+    public function getMedia()
+    {
+        return $this->getArrayOfObject($this->media, 'kosssi\AllocineApi\Entity\Media');
     }
 
     public function setMovieType($movieType)
@@ -124,9 +196,7 @@ class Movie
 
     public function getMovieType()
     {
-        $value = '$';
-
-        return $this->movieType->$value;
+        return $this->getValue($this->movieType);
     }
 
     public function setNationality($nationality)
@@ -136,9 +206,17 @@ class Movie
 
     public function getNationality()
     {
-        $value = '$';
+        return $this->getArray($this->nationality);
+    }
 
-        return $this->nationality->$value;
+    public function setNews($news)
+    {
+        $this->news = $news;
+    }
+
+    public function getNews()
+    {
+        return $this->getArrayOfObject($this->news, 'kosssi\AllocineApi\Entity\News');
     }
 
     public function setOriginalTitle($originalTitle)
@@ -181,6 +259,16 @@ class Movie
         return $this->release;
     }
 
+    public function setRuntime($runtime)
+    {
+        $this->runtime = $runtime;
+    }
+
+    public function getRuntime()
+    {
+        return $this->runtime;
+    }
+
     public function setStatistics($statistics)
     {
         $this->statistics = $statistics;
@@ -211,6 +299,16 @@ class Movie
         return $this->synopsisShort;
     }
 
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+    }
+
+    public function getTag()
+    {
+        return $this->getArray($this->tag);
+    }
+
     public function setTitle($title)
     {
         $this->title = $title;
@@ -218,7 +316,7 @@ class Movie
 
     public function getTitle()
     {
-        return $this->title;
+        return is_null($this->title)?$this->originalTitle:$this->title;
     }
 
     public function setTrailer($trailer)
@@ -231,86 +329,6 @@ class Movie
         return $this->trailer;
     }
 
-    public function setBoxOffice($boxOffice)
-    {
-        $this->boxOffice = $boxOffice;
-    }
-
-    public function getBoxOffice()
-    {
-        return $this->boxOffice;
-    }
-
-    public function setBudget($budget)
-    {
-        $this->budget = $budget;
-    }
-
-    public function getBudget()
-    {
-        return $this->budget;
-    }
-
-    public function setFeature($feature)
-    {
-        $this->feature = $feature;
-    }
-
-    public function getFeature()
-    {
-        return $this->feature;
-    }
-
-    public function setKeywords($keywords)
-    {
-        $this->keywords = $keywords;
-    }
-
-    public function getKeywords()
-    {
-        return $this->keywords;
-    }
-
-    public function setMedia($media)
-    {
-        $this->media = $media;
-    }
-
-    public function getMedia()
-    {
-        return $this->media;
-    }
-
-    public function setNews($news)
-    {
-        $this->news = $news;
-    }
-
-    public function getNews()
-    {
-        return $this->news;
-    }
-
-    public function setRuntime($runtime)
-    {
-        $this->runtime = $runtime;
-    }
-
-    public function getRuntime()
-    {
-        return $this->runtime;
-    }
-
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
-    }
-
-    public function getTag()
-    {
-        return $this->tag;
-    }
-
     public function setTrivia($trivia)
     {
         $this->trivia = $trivia;
@@ -318,7 +336,7 @@ class Movie
 
     public function getTrivia()
     {
-        return $this->trivia;
+        return $this->getArrayOfObject($this->trivia, 'kosssi\AllocineApi\Entity\News');
     }
 
     // add function

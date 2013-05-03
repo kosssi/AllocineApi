@@ -5,7 +5,7 @@ Informations sur un film : movie
 
     URL : http://api.allocine.fr/rest/v3/movie
     Paramètres
-        partner : code partenaire
+        partner : code partenaire (YW5kcm9pZC12M3M pour l'application Android)
         code : identifiant du film (entier)
         profile (optionnel) : degré d'informations renvoyées (valeurs possibles : small, medium, large)
         mediafmt (optionnel) : format vidéo
@@ -25,4 +25,3 @@ Informations sur un film : movie
         striptags (optionnel) : supprime les tags HTML des paramètres valeurs passées en paramètre
 
     Exemple : http://api.allocine.fr/rest/v3/movie?partner=YW5kcm9pZC12M3M&code=61282&profile=large&mediafmt=mp4-lc&format=json&filter=movie&striptags=synopsis,synopsisshort
-
