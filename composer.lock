@@ -3,21 +3,21 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "95d11306e74d9b9628824dffa3006111",
+    "hash": "93f949aa650cdf2bc131dd6d03296416",
     "packages": [
         {
             "name": "symfony/serializer",
-            "version": "dev-master",
+            "version": "v2.2.1",
             "target-dir": "Symfony/Component/Serializer",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Serializer.git",
-                "reference": "b6eb7ec2b70a2fb53831fd67952dd2e62f392ed2"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Serializer/zipball/b6eb7ec2b70a2fb53831fd67952dd2e62f392ed2",
-                "reference": "b6eb7ec2b70a2fb53831fd67952dd2e62f392ed2",
+                "url": "https://api.github.com/repos/symfony/Serializer/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -50,7 +50,7 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-16 07:54:39"
+            "time": "2013-03-06 21:43:23"
         }
     ],
     "packages-dev": [
@@ -59,10 +59,10 @@
     "aliases": [
 
     ],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "symfony/serializer": 20
-    },
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
     "platform": [
 
     ],

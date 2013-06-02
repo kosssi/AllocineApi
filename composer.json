@@ -2,7 +2,7 @@
     "name": "kosssi/allocine-api",
     "description": "Description",
     "require": {
-        "symfony/serializer": "2.4.x-dev"
+        "symfony/serializer": "*"
     },
     "license": "MIT",
     "authors": [
@@ -11,7 +11,7 @@
             "email": "kosssi@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-0": {
             "kosssi": "src/"
