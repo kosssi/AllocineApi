@@ -2,7 +2,7 @@
     "name": "kosssi/allocine-api",
     "description": "Description",
     "require": {
-        "symfony/serializer": "master"
+        "symfony/serializer": "dev-master"
     },
     "license": "MIT",
     "authors": [
