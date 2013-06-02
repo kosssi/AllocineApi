@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "bcab70f085f9af2d8cfd752828d7bf11",
+    "hash": "95d11306e74d9b9628824dffa3006111",
     "packages": [
         {
             "name": "symfony/serializer",
