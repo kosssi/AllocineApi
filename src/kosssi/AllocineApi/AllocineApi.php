@@ -165,7 +165,8 @@ class AllocineApi
         $response = curl_exec($ch);
         curl_close($ch);
 
-        list(,$jsonObject) = each(json_decode($response));
+        $json = json_decode($response);
+        list(,$jsonObject) = each($json);
 
         return $this->serializer->denormalize($jsonObject, $class, 'json');
     }
