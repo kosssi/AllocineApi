@@ -1,7 +1,6 @@
 <?php
 namespace kosssi\AllocineApi\Entity;
-
-use kosssi\AllocineApi\AllocineApi;
+use kosssi\AllocineApi\Traits\AllocineHelp;
 
 /**
  * Movie
@@ -12,8 +11,10 @@ use kosssi\AllocineApi\AllocineApi;
  * @git        https://github.com/kosssi/AllocineApi
  * @see        http://wiki.gromez.fr/dev/api/allocine_v3
  */
-class Movie extends AllocineApi
+class Movie
 {
+    use AllocineHelp;
+
     private $code;
     private $movieType;
     private $originalTitle;
@@ -43,11 +44,6 @@ class Movie extends AllocineApi
     private $tag;
     private $festivalAward; // object
     private $boxOffice; // object
-
-    function __construct()
-    {
-        parent::__construct();
-    }
 
     public function setBoxOffice($boxOffice)
     {

@@ -2,6 +2,7 @@
 namespace kosssi\AllocineApi\Entity;
 
 use kosssi\AllocineApi\AllocineApi;
+use kosssi\AllocineApi\Traits\AllocineHelp;
 
 /**
  * Search
@@ -14,6 +15,8 @@ use kosssi\AllocineApi\AllocineApi;
  */
 class Search extends AllocineApi
 {
+    use AllocineHelp;
+
     private $page;          // integer
     private $count;         // integer
     private $results;       // array (key => value)

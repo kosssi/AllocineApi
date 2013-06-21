@@ -19,18 +19,19 @@ class AllocineApi
     const PARTNER_KEY = '100043982026';
     const SECRET_KEY  = '29d185d98c984a359e6e6f26a0474269';
     const API_URL     = 'http://api.allocine.fr/rest/v3/';
-    const USER_AGENT  = 'Dalvik/1.6.0 (Linux; U; Android 4.2.2; Nexus 4 Build/JDQ39E)';
 
-    private $serializer;
+    protected $userAgent;
+    protected $serializer;
 
     /**
      * constructor
      */
-    public function __construct()
+    public function __construct($userAgent = '')
     {
         $encoders = array(new JsonEncoder());
         $normalizers = array(new GetSetMethodNormalizer());
         $this->serializer = new Serializer($normalizers, $encoders);
+        $this->userAgent = $userAgent;
     }
 
     // public
@@ -46,7 +47,11 @@ class AllocineApi
      */
     public function search($q, $filter = null, $count = null, $page = null)
     {
-        return $this->doRequest(__FUNCTION__, get_defined_vars(), 'kosssi\AllocineApi\Entity\Search');
+        /** @var \kosssi\AllocineApi\Entity\Search $search */
+        $search = $this->doRequest(__FUNCTION__, get_defined_vars(), 'kosssi\AllocineApi\Entity\Search');
+        $search->setSerializer($this->getSerializer());
+
+        return $search;
     }
 
     /**
@@ -61,7 +66,11 @@ class AllocineApi
      */
     public function movie($code, $profile = 'large', $mediafmt = null, $filter = null, $striptags = null)
     {
-        return $this->doRequest(__FUNCTION__, get_defined_vars(), 'kosssi\AllocineApi\Entity\Movie');
+        /** @var \kosssi\AllocineApi\Entity\Movie $movie */
+        $movie = $this->doRequest(__FUNCTION__, get_defined_vars(), 'kosssi\AllocineApi\Entity\Movie');
+        $movie->setSerializer($this->getSerializer());
+
+        return $movie;
     }
 
     public function complete($mediafmt = null, $filter = null, $striptags = null)
@@ -73,75 +82,6 @@ class AllocineApi
         }
 
         return null;
-    }
-
-    // protected
-
-    /**
-     * @param $element
-     * @param string $key
-     * @return mixed
-     */
-    protected function getValue($element, $key = '$')
-    {
-        if (isset($element->$key)) {
-            return $element->$key;
-        }
-
-        return $element;
-    }
-
-    /**
-     * @param array $array
-     * @param string $key
-     * @return array
-     */
-    protected function getArray($array, $key = '$')
-    {
-        $result = array();
-
-        foreach ($array as $element) {
-            if (isset($element->$key)) {
-                $result[] = $element->$key;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param array $array
-     * @param string $key
-     * @param string $value
-     * @return array
-     */
-    protected function getArrayWithKey($array, $key = 'type', $value = '$')
-    {
-        $result = array();
-
-        foreach ($array as $element) {
-            if (isset($element->$key) && isset($element->$value)) {
-                $result[$key] = $element->$value;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param array $array
-     * @param string $class
-     * @return array
-     */
-    protected function getArrayOfObject($array, $class)
-    {
-        $result = array();
-
-        foreach ($array as $element) {
-            $result[] = $this->serializer->denormalize($element, $class, 'json');
-        }
-
-        return $result;
     }
 
     // private
@@ -160,12 +100,12 @@ class AllocineApi
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $queryUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_USERAGENT, AllocineApi::USER_AGENT);
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         $response = curl_exec($ch);
         curl_close($ch);
 
-        $json = json_decode($response);
+        $json = json_decode($response, true);
         list(,$jsonObject) = each($json);
 
         return $this->serializer->denormalize($jsonObject, $class, 'json');
@@ -188,5 +128,21 @@ class AllocineApi
         $query_url .= '?'.http_build_query($params).'&sed='.$sed.'&sig='.$sig;
 
         return $query_url;
+    }
+
+    /**
+     * @param \Symfony\Component\Serializer\Serializer $serializer
+     */
+    public function setSerializer($serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
+    /**
+     * @return \Symfony\Component\Serializer\Serializer
+     */
+    public function getSerializer()
+    {
+        return $this->serializer;
     }
 }
