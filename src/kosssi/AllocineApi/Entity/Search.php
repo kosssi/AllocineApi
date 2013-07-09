@@ -1,7 +1,6 @@
 <?php
 namespace kosssi\AllocineApi\Entity;
 
-use kosssi\AllocineApi\AllocineApi;
 use kosssi\AllocineApi\Traits\AllocineHelp;
 
 /**
@@ -10,10 +9,9 @@ use kosssi\AllocineApi\Traits\AllocineHelp;
  * PHP 5.3
  *
  * @author     Simon Constans <kosssi@gmail.com>
- * @git        https://github.com/kosssi/AllocineApi
  * @see        http://wiki.gromez.fr/dev/api/allocine_v3
  */
-class Search extends AllocineApi
+class Search
 {
     use AllocineHelp;
 

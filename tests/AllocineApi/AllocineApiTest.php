@@ -17,7 +17,7 @@ class AllocineApiTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->allocineApi = new AllocineApi();
+        $this->allocineApi = new AllocineApi('Dalvik/1.6.0 (Linux; U; Android 4.2.2; Nexus 4 Build/JDQ39E)');
     }
 
     public function testConstructor()
