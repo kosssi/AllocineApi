@@ -1,4 +1,5 @@
 <?php
+
 namespace kosssi\AllocineApi;
 
 use Symfony\Component\Serializer\Serializer;
@@ -8,11 +9,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 /**
  * Allocine API
  *
- * PHP 5.3
- *
- * @author     Simon Constans <kosssi@gmail.com>
- * @git        https://github.com/kosssi/AllocineApi
- * @see        http://wiki.gromez.fr/dev/api/allocine_v3
+ * @author Simon Constans <kosssi@gmail.com>
  */
 class AllocineApi
 {
@@ -20,7 +17,9 @@ class AllocineApi
     const SECRET_KEY  = '29d185d98c984a359e6e6f26a0474269';
     const API_URL     = 'http://api.allocine.fr/rest/v3/';
 
+    /** @var \Symfony\Component\Serializer\Serializer */
     protected $serializer;
+
 
     /**
      * constructor
@@ -33,7 +32,6 @@ class AllocineApi
         $this->serializer = new Serializer($normalizers, $encoders);
     }
 
-    // public
 
     /**
      * Recherche
@@ -42,13 +40,13 @@ class AllocineApi
      * @param null $filter
      * @param null $count
      * @param null $page
+     *
      * @return Entity\Search
      */
     public function search($q, $filter = null, $count = null, $page = null)
     {
         /** @var \kosssi\AllocineApi\Entity\Search $search */
         $search = $this->doRequest(__FUNCTION__, get_defined_vars(), 'kosssi\AllocineApi\Entity\Search');
-        $search->setSerializer($this->getSerializer());
 
         return $search;
     }
@@ -61,34 +59,26 @@ class AllocineApi
      * @param null $mediafmt
      * @param null $filter
      * @param null $striptags
+     *
      * @return Entity\Movie
      */
     public function movie($code, $profile = 'large', $mediafmt = null, $filter = null, $striptags = null)
     {
         /** @var \kosssi\AllocineApi\Entity\Movie $movie */
         $movie = $this->doRequest(__FUNCTION__, get_defined_vars(), 'kosssi\AllocineApi\Entity\Movie');
-        $movie->setSerializer($this->getSerializer());
 
         return $movie;
-    }
-
-    public function complete($mediafmt = null, $filter = null, $striptags = null)
-    {
-        $class = get_class($this);
-
-        if ($class == 'kosssi\AllocineApi\Entity\Movie') {
-            return $this->movie($this->getCode(), $profile = 'large', $mediafmt, $filter, $striptags);
-        }
-
-        return null;
     }
 
     // private
 
     /**
-     * @param $method
-     * @param $params
-     * @param $class
+     * Fait la requete allocine
+     *
+     * @param string $method
+     * @param array  $params
+     * @param string $class
+     *
      * @return object
      */
     private function doRequest($method, array $params, $class)
@@ -111,8 +101,11 @@ class AllocineApi
     }
 
     /**
-     * @param $method
-     * @param array $params
+     * Création de l'url
+     *
+     * @param string $method
+     * @param array  $params
+     *
      * @return string
      */
     private function getQueryUrl($method, array $params)
@@ -130,23 +123,7 @@ class AllocineApi
     }
 
     /**
-     * @param \Symfony\Component\Serializer\Serializer $serializer
-     */
-    public function setSerializer($serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
-    /**
-     * @return \Symfony\Component\Serializer\Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->serializer;
-    }
-
-    /**
-     * Retourne un user-agent aléatoire.
+     * Retourne un user-agent aléatoire
      *
      * @return string
      */

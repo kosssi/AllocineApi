@@ -1,15 +1,16 @@
 <?php
+
 namespace kosssi\AllocineApi\Entity;
 
 use kosssi\AllocineApi\Traits\AllocineHelp;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Search
  *
- * PHP 5.3
- *
- * @author     Simon Constans <kosssi@gmail.com>
- * @see        http://wiki.gromez.fr/dev/api/allocine_v3
+ * @author Simon Constans <kosssi@gmail.com>
  */
 class Search
 {
@@ -23,6 +24,19 @@ class Search
     private $tvseries;      // array
     private $news;          // array
     private $media;         // array
+
+
+    /**
+     * constructor
+     */
+    public function __construct()
+    {
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+
+        $this->serializer = new Serializer($normalizers, $encoders);
+    }
+
 
     public function setCount($count)
     {
@@ -41,7 +55,8 @@ class Search
 
     public function getMedia()
     {
-        return $this->getArrayOfObject($this->media, 'kosssi\AllocineApi\Entity\Media');
+        // return $this->getArrayOfObject($this->media, 'kosssi\AllocineApi\Entity\Media');
+        return $this->media;
     }
 
     public function setMovie($movie)
@@ -61,7 +76,8 @@ class Search
 
     public function getNews()
     {
-        return $this->getArrayOfObject($this->news, 'kosssi\AllocineApi\Entity\News');
+        //return $this->getArrayOfObject($this->news, 'kosssi\AllocineApi\Entity\News');
+        return $this->news;
     }
 
     public function setPage($page)
@@ -101,6 +117,7 @@ class Search
 
     public function getTvseries()
     {
-        return $this->getArrayOfObject($this->movie, 'kosssi\AllocineApi\Entity\Serie');
+        //return $this->getArrayOfObject($this->movie, 'kosssi\AllocineApi\Entity\Serie');
+        return $this->tvseries;
     }
 }

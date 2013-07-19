@@ -1,15 +1,16 @@
 <?php
+
 namespace kosssi\AllocineApi\Entity;
+
 use kosssi\AllocineApi\Traits\AllocineHelp;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Movie
  *
- * PHP 5.3
- *
- * @author     Simon Constans <kosssi@gmail.com>
- * @git        https://github.com/kosssi/AllocineApi
- * @see        http://wiki.gromez.fr/dev/api/allocine_v3
+ * @author Simon Constans <kosssi@gmail.com>
  */
 class Movie
 {
@@ -21,29 +22,42 @@ class Movie
     private $title;
     private $keywords;
     private $productionYear;
-    private $nationality; // array
+    private $nationality;    // array
     private $genre;
-    private $release; // object
+    private $release;        // object
     private $runtime;
     private $color;
-    private $formatList; // object
+    private $formatList;     // object
     private $language;
     private $budget;
     private $synopsis;
     private $synopsisShort;
-    private $castingShort; // object
-    private $castMember; // object
-    private $poster; // object
-    private $trailer; // object
+    private $castingShort;   // object
+    private $castMember;     // object
+    private $poster;         // object
+    private $trailer;        // object
     private $link;
     private $media;
-    private $statistics; // object
+    private $statistics;     // object
     private $news;
     private $feature;
     private $trivia;
     private $tag;
-    private $festivalAward; // object
-    private $boxOffice; // object
+    private $festivalAward;  // object
+    private $boxOffice;      // object
+
+
+    /**
+     * constructor
+     */
+    public function __construct()
+    {
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+
+        $this->serializer = new Serializer($normalizers, $encoders);
+    }
+
 
     public function setBoxOffice($boxOffice)
     {
@@ -112,7 +126,8 @@ class Movie
 
     public function getFeature()
     {
-        return $this->getArrayOfObject($this->feature, 'kosssi\AllocineApi\Entity\News');
+        //return $this->getArrayOfObject($this->feature, 'kosssi\AllocineApi\Entity\News');
+        return $this->feature;
     }
 
     public function setFestivalAward($festivalAward)
@@ -182,7 +197,8 @@ class Movie
 
     public function getMedia()
     {
-        return $this->getArrayOfObject($this->media, 'kosssi\AllocineApi\Entity\Media');
+        //return $this->getArrayOfObject($this->media, 'kosssi\AllocineApi\Entity\Media');
+        return $this->media;
     }
 
     public function setMovieType($movieType)
@@ -212,7 +228,8 @@ class Movie
 
     public function getNews()
     {
-        return $this->getArrayOfObject($this->news, 'kosssi\AllocineApi\Entity\News');
+        //return $this->getArrayOfObject($this->news, 'kosssi\AllocineApi\Entity\News');
+        return $this->news;
     }
 
     public function setOriginalTitle($originalTitle)
@@ -332,7 +349,8 @@ class Movie
 
     public function getTrivia()
     {
-        return $this->getArrayOfObject($this->trivia, 'kosssi\AllocineApi\Entity\News');
+        //return $this->getArrayOfObject($this->trivia, 'kosssi\AllocineApi\Entity\News');
+        return $this->trivia;
     }
 
     // add function
