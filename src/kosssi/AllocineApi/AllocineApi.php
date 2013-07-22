@@ -34,6 +34,27 @@ class AllocineApi
 
 
     /**
+     * telechargement des medias
+     *
+     * @param $href
+     *
+     * @return mixed
+     */
+    public function downloadMedia($href)
+    {
+        // do the request
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $href);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->getRandomUserAgent());
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return $response;
+    }
+
+    /**
      * Recherche
      *
      * @param string $q
